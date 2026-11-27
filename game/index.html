@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Ridge — a valley flight game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app"></div>
+
+<div id="hud">
+  <div id="mission" class="panel">
+    <div id="objective">Warm up the engine</div>
+    <div class="stat-row">
+      <span>SCORE <b id="stat-score">0</b></span>
+      <span>TIME <b id="stat-time">00:00</b></span>
+    </div>
+  </div>
+
+  <canvas id="compass" width="340" height="38"></canvas>
+
+  <div id="readout" class="panel">
+    <div class="ro-row"><span>ALT</span><b id="ro-alt">0000</b><span class="unit">ft</span></div>
+    <div class="ro-row"><span>SPD</span><b id="ro-spd">000</b><span class="unit">kt</span></div>
+    <div class="ro-row"><span>HDG</span><b id="ro-hdg">000</b><span class="unit">deg</span></div>
+    <div class="ro-row"><span>V/S</span><b id="ro-vs">+0 fpm</b></div>
+    <div id="gear-state">GEAR DOWN</div>
+  </div>
+
+  <div id="gauges">
+    <canvas id="gauge-speed" width="150" height="150"></canvas>
+    <canvas id="gauge-horizon" width="150" height="150"></canvas>
+  </div>
+
+  <div id="bars" class="panel">
+    <div class="bar-row"><span>THR</span><div class="bar"><div id="bar-throttle" class="fill thr"></div></div></div>
+    <div class="bar-row"><span>FUEL</span><div class="bar"><div id="bar-fuel" class="fill"></div></div></div>
+    <div class="bar-row"><span>HULL</span><div class="bar"><div id="bar-hull" class="fill"></div></div></div>
+  </div>
+
+  <div id="reticle"></div>
+  <div id="ring-marker"><div class="diamond"></div><div id="ring-marker-dist">0 m</div></div>
+
+  <div id="banner"></div>
+  <div id="banner-sub"></div>
+  <div id="warning"></div>
+
+  <div id="controls-hint">W/S pitch &middot; A/D bank &middot; Shift/F throttle &middot; G gear &middot; Space brake &middot; drag mouse to steer</div>
+</div>
+
+<div id="overlay"></div>
+
+<script src="vendor/three.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

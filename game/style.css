@@ -1,0 +1,117 @@
+/* Kestrel Ridge — HUD and overlay styling.
+   Amber-on-charcoal instrument panels over the 3D view; everything is
+   positioned fixed so the layout holds at any desktop window size. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: #0c1218;
+  font-family: "SF Mono", "Cascadia Mono", Consolas, monospace;
+  color: #dfe9f2;
+  user-select: none;
+}
+
+#app, #app canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+#hud { position: fixed; inset: 0; pointer-events: none; }
+
+.panel {
+  background: rgba(10, 15, 20, 0.72);
+  border: 1px solid #3d4a5a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  backdrop-filter: blur(2px);
+}
+
+#mission { position: absolute; top: 16px; left: 16px; max-width: 340px; }
+#objective { font-size: 14px; line-height: 1.45; color: #ffd9a0; min-height: 20px; }
+.stat-row { display: flex; gap: 18px; margin-top: 6px; font-size: 12px; color: #8fb4d8; }
+.stat-row b { color: #ffffff; font-size: 14px; }
+
+#compass { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); }
+
+#readout { position: absolute; top: 16px; right: 16px; min-width: 168px; }
+.ro-row { display: flex; align-items: baseline; gap: 8px; font-size: 12px; color: #8fb4d8; padding: 1.5px 0; }
+.ro-row b { color: #ffffff; font-size: 19px; margin-left: auto; }
+.ro-row .unit { font-size: 10px; color: #5d7186; }
+#gear-state { margin-top: 6px; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
+
+#gauges { position: absolute; left: 16px; bottom: 16px; display: flex; gap: 10px; }
+#gauges canvas { width: 132px; height: 132px; }
+
+#bars { position: absolute; right: 16px; bottom: 16px; width: 218px; }
+.bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #8fb4d8; padding: 2.5px 0; }
+.bar-row span { width: 34px; }
+.bar { flex: 1; height: 10px; background: #1a232e; border: 1px solid #3d4a5a; border-radius: 5px; overflow: hidden; }
+.bar .fill { height: 100%; width: 100%; background: #57b25e; transition: width 0.12s linear; }
+.bar .fill.thr { background: #ffb347; }
+
+#reticle {
+  position: absolute; left: 50%; top: 50%; width: 26px; height: 26px;
+  transform: translate(-50%, -50%); opacity: 0.85;
+}
+#reticle::before, #reticle::after {
+  content: ""; position: absolute; background: #ffb347;
+}
+#reticle::before { left: 50%; top: 0; width: 2px; height: 100%; transform: translateX(-50%); }
+#reticle::after { top: 50%; left: 0; height: 2px; width: 100%; transform: translateY(-50%); }
+
+#ring-marker {
+  position: absolute; left: 0; top: 0; width: 46px; text-align: center;
+  visibility: hidden; will-change: transform;
+}
+#ring-marker .diamond {
+  width: 22px; height: 22px; margin: 0 auto;
+  border: 3px solid #ff8c1a; transform: rotate(45deg);
+  box-shadow: 0 0 12px rgba(255, 140, 26, 0.8);
+}
+#ring-marker-dist { margin-top: 7px; font-size: 11px; color: #ffb347; text-shadow: 0 1px 3px #000; }
+
+#banner {
+  position: absolute; left: 50%; top: 24%; transform: translateX(-50%);
+  font-size: 40px; font-weight: bold; letter-spacing: 3px; color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.65); visibility: hidden; white-space: nowrap;
+}
+#banner-sub {
+  position: absolute; left: 50%; top: calc(24% + 52px); transform: translateX(-50%);
+  font-size: 16px; color: #ffd9a0; text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+  visibility: hidden; white-space: nowrap;
+}
+
+#warning {
+  position: absolute; left: 50%; top: 58%; transform: translateX(-50%);
+  font-size: 21px; font-weight: bold; letter-spacing: 2px; color: #ff5a47;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8); visibility: hidden;
+  animation: blink 0.7s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0.25; } }
+
+#controls-hint {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: rgba(223, 233, 242, 0.55); white-space: nowrap;
+}
+
+#overlay {
+  position: fixed; inset: 0; display: none;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: radial-gradient(ellipse at center, rgba(8, 14, 22, 0.42) 0%, rgba(8, 14, 22, 0.86) 100%);
+  text-align: center; padding: 24px; z-index: 5;
+}
+#overlay h1 {
+  font-size: 58px; letter-spacing: 6px; color: #ffffff;
+  text-shadow: 0 3px 22px rgba(0, 0, 0, 0.8);
+}
+#overlay h1 .accent { color: #ff8c1a; }
+#overlay h2 { font-size: 30px; letter-spacing: 3px; color: #ffffff; }
+#overlay p { margin-top: 14px; font-size: 15px; line-height: 1.65; color: #c9d8e4; max-width: 620px; }
+#overlay .controls {
+  margin-top: 18px; display: grid; grid-template-columns: auto auto; gap: 4px 16px;
+  font-size: 13px; color: #8fb4d8; text-align: left;
+}
+#overlay .controls b { color: #ffd9a0; font-weight: normal; text-align: right; }
+#overlay .prompt {
+  margin-top: 26px; font-size: 17px; color: #ffb347; letter-spacing: 1px;
+  animation: blink 1.1s steps(2) infinite;
+}
+#overlay .score-line { font-size: 22px; color: #ffd9a0; margin-top: 10px; }
